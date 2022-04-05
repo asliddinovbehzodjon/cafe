@@ -51,9 +51,11 @@ def order(request,user,id,quantity):
         try:
             product=Products.objects.get(id=id)
             if Order.objects.filter(product=product,user=user).exists():
-                buyurtma=Order.objects.filter(product=product,user=user)
-                buyurtma.quantity=quantity
-                buyurtma.save()
+                Order.objects.filter(product=product,user=user).update(quantity=quantity)
+            else: 
+                Order.objects.create(
+                    user=user,product=product,quantity=quantity
+                )
             return Response({"Order":"Added"},status=status.HTTP_200_OK)
 
         except Products.DoesNotExist:
