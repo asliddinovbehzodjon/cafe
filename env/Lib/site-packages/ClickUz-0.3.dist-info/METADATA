@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: ClickUz
+Version: 0.3
+Summary: ClickUz
+Home-page: https://github.com/begyy/ClickUz
+Author: Sadullayev Bekhzod
+Author-email: begymrx@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+Requires-Dist: django
+Requires-Dist: djangorestframework
+
+![alt text](https://i.imgur.com/JodvWCx.jpg)
+
+
+```console
+$ pip install clickuz
+```
+
+# Documentation
+https://github.com/begyy/ClickUz
+
