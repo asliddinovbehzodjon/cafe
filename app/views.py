@@ -66,6 +66,7 @@ def laststep(request,user,phone,adress,id,quantity):
     try:
        
         order=Order.objects.get(user=user)
+        product=Products.objects.get(id=id)
         items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
         data=order.orderitem_set.all()
         summa=data.all_summa
