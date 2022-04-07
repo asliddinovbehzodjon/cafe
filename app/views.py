@@ -62,7 +62,7 @@ def SendTelegramBot(request,xabar):
 #         except Products.DoesNotExist:
 #              return Response(status=status.HTTP_404_NOT_FOUND)
 @api_view(['GET','POST'])
-def order(request,user,phone,adress,id,quantity):
+def laststep(request,user,phone,adress,id,quantity):
     try:
        
         order=Order.objects.get(user=user)

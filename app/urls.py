@@ -7,7 +7,7 @@ urlpatterns = [
     path('about/<int:pk>',AboutCategoryProduct.as_view()),
     path('payment',Test.as_view()),
     path('send/<str:xabar>',SendTelegramBot),
-    path('order/<str:user>/<int:id>/<int:quantity>',order)
+    path('order/<str:user>/<str:phone>/<str:adress>/<int:id>/<int:quantity>',laststep)
    
     
 ]
