@@ -68,13 +68,12 @@ def laststep(request,user,phone,adress,id,quantity):
         order=Order.objects.get(user=user)
         product=Products.objects.get(id=id)
         items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
-        data=order.orderitem_set.all()
-        summa=data.all_summa
+        
         info=ShippingInfo.objects.create(order=order,phone=phone,adress=adress)
         from clickuz import ClickUz
 
 
-        url = ClickUz.generate_url(order_id=phone[1:],amount=summa,return_url='http://behzodasliddinov.uz/')
+        url = ClickUz.generate_url(order_id=phone[1:],amount="10000",return_url='http://behzodasliddinov.uz/')
 
         return Response({"url":url},status=status.HTTP_200_OK)
 
@@ -82,13 +81,12 @@ def laststep(request,user,phone,adress,id,quantity):
     except Order.DoesNotExist:
         order=Order.objects.create(user=user)
         items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
-        data=order.orderitem_set.all()
-        summa=data.all_summa
+        
         info=ShippingInfo.objects.create(order=order,phone=phone,adress=adress)
         from clickuz import ClickUz
 
 
-        url = ClickUz.generate_url(order_id=phone[1:],amount=summa,return_url='http://behzodasliddinov.uz/')
+        url = ClickUz.generate_url(order_id=phone[1:],amount="10000",return_url='http://behzodasliddinov.uz/')
 
         return Response({"url":url},status=status.HTTP_200_OK)
 
