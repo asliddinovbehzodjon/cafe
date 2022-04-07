@@ -62,7 +62,7 @@ def SendTelegramBot(request,xabar):
 #         except Products.DoesNotExist:
 #              return Response(status=status.HTTP_404_NOT_FOUND)
 @api_view(['GET','POST'])
-def laststep(request,user,phone,adress,id,quantity):
+def laststep(request,user,phone,adress,id,quantity,obshi):
     try:
        
         order=Order.objects.get(user=user)
@@ -73,7 +73,7 @@ def laststep(request,user,phone,adress,id,quantity):
         from clickuz import ClickUz
 
 
-        url = ClickUz.generate_url(order_id=phone[1:],amount="10000",return_url='http://behzodasliddinov.uz/')
+        url = ClickUz.generate_url(order_id=phone[1:],amount=obshi,return_url='http://behzodasliddinov.uz/')
 
         return Response({"url":url},status=status.HTTP_200_OK)
 
@@ -86,7 +86,7 @@ def laststep(request,user,phone,adress,id,quantity):
         from clickuz import ClickUz
 
 
-        url = ClickUz.generate_url(order_id=phone[1:],amount="10000",return_url='http://behzodasliddinov.uz/')
+        url = ClickUz.generate_url(order_id=phone[1:],amount=obshi,return_url='http://behzodasliddinov.uz/')
 
         return Response({"url":url},status=status.HTTP_200_OK)
 
