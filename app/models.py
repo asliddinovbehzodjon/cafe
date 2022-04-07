@@ -1,3 +1,4 @@
+from itertools import product
 from django.db import models
 
 class Category(models.Model):
@@ -20,7 +21,27 @@ class Products(models.Model):
         verbose_name="Mahsulot "
 class Order(models.Model):
     user=models.CharField(max_length=400)
+    def __str__(self):
+        return f"{self.user} ning buyurtmalari"
+    @property
+    def all_summa(self):
+        items=self.orderitem_set.all()
+        total=sum([item.get_summa for item in items])
+        return total
+class OrderItem(models.Model):
+    order=models.ForeignKey(Order,on_delete=models.CASCADE)
     product=models.ForeignKey(Products,on_delete=models.CASCADE)
     quantity=models.IntegerField()
     def __str__(self):
-        return f"{self.user} ning buyurtmalari"
+        return self.order.user
+    @property
+    def get_summa(self):
+        total=self.product.cost * self.quantity
+        return total
+
+class ShippingInfo(models.Model):
+    order=models.ForeignKey(Order,on_delete=models.CASCADE)
+    phone=models.CharField(max_length=400)
+    adress=models.CharField(max_length=400)
+    def __str__(self):
+        return self.order.user

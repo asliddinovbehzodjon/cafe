@@ -47,7 +47,7 @@ def SendTelegramBot(request,xabar):
         return Response({'Message':'Send'},status=status.HTTP_200_OK) 
 
 @api_view(['GET','POST'])
-def order(request,user,id,quantity):
+def order(request,user,phone,adress,id,quantity):
         try:
             product=Products.objects.get(id=id)
             if Order.objects.filter(product=product,user=user).exists():
