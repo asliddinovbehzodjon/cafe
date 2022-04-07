@@ -73,7 +73,7 @@ def laststep(request,user,phone,adress,id,quantity,obshi):
         else:
             items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
         if ShippingInfo.objects.filter(order=order).exists():
-            ShippingInfo.objects.filter(order=order).update(phone=phone,adress=adress,obshi=obshi)
+            ShippingInfo.objects.filter(order=order).update(phone=phone,adress=adress)
         else:
           info=ShippingInfo.objects.create(order=order,phone=phone,adress=adress)
         from clickuz import ClickUz
@@ -93,7 +93,7 @@ def laststep(request,user,phone,adress,id,quantity,obshi):
         else:
             items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
         if ShippingInfo.objects.filter(order=order).exists():
-            ShippingInfo.objects.filter(order=order).update(phone=phone,adress=adress,obshi=obshi)
+            ShippingInfo.objects.filter(order=order).update(phone=phone,adress=adress)
         else:
           info=ShippingInfo.objects.create(order=order,phone=phone,adress=adress)
         from clickuz import ClickUz
