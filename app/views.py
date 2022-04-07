@@ -1,3 +1,4 @@
+from itertools import product
 from django.shortcuts import render
 
 # Create your views here.
@@ -5,7 +6,7 @@ from .serializer import CategorySerializer,ProductsSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .models import Category, Order,Products
+from .models import Category, Order, OrderItem,Products,ShippingInfo
 from rest_framework.decorators import api_view
 from rest_framework import generics
 
@@ -46,17 +47,51 @@ def SendTelegramBot(request,xabar):
         requests.get(url2)
         return Response({'Message':'Send'},status=status.HTTP_200_OK) 
 
+# @api_view(['GET','POST'])
+# def order(request,user,phone,adress,id,quantity):
+#         try:
+#             product=Products.objects.get(id=id)
+#             if Order.objects.filter(product=product,user=user).exists():
+#                 Order.objects.filter(product=product,user=user).update(quantity=quantity)
+#             else: 
+#                 Order.objects.create(
+#                     user=user,product=product,quantity=quantity
+#                 )
+#             return Response({"Order":"Added"},status=status.HTTP_200_OK)
+
+#         except Products.DoesNotExist:
+#              return Response(status=status.HTTP_404_NOT_FOUND)
 @api_view(['GET','POST'])
 def order(request,user,phone,adress,id,quantity):
-        try:
-            product=Products.objects.get(id=id)
-            if Order.objects.filter(product=product,user=user).exists():
-                Order.objects.filter(product=product,user=user).update(quantity=quantity)
-            else: 
-                Order.objects.create(
-                    user=user,product=product,quantity=quantity
-                )
-            return Response({"Order":"Added"},status=status.HTTP_200_OK)
+    try:
+       
+        order=Order.objects.get(user=user)
+        items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
+        data=order.orderitem_set.all()
+        summa=data.all_summa
+        info=ShippingInfo.objects.create(order=order,phone=phone,adress=adress)
+        from clickuz import ClickUz
 
-        except Products.DoesNotExist:
-             return Response(status=status.HTTP_404_NOT_FOUND)
+
+        url = ClickUz.generate_url(order_id=phone[1:],amount=summa,return_url='http://behzodasliddinov.uz/')
+
+        return Response({"url":url},status=status.HTTP_200_OK)
+
+
+    except Order.DoesNotExist:
+        order=Order.objects.create(user=user)
+        items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
+        data=order.orderitem_set.all()
+        summa=data.all_summa
+        info=ShippingInfo.objects.create(order=order,phone=phone,adress=adress)
+        from clickuz import ClickUz
+
+
+        url = ClickUz.generate_url(order_id=phone[1:],amount=summa,return_url='http://behzodasliddinov.uz/')
+
+        return Response({"url":url},status=status.HTTP_200_OK)
+
+
+
+
+    
