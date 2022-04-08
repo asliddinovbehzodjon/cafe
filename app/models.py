@@ -36,7 +36,7 @@ class OrderItem(models.Model):
     product=models.ForeignKey(Products,on_delete=models.CASCADE)
     quantity=models.IntegerField()
     def __str__(self):
-        return self.order.user
+        return f"{self.order.token} ning buyurtmalari "
     @property
     def get_summa(self):
         total=self.product.cost * self.quantity
@@ -50,4 +50,4 @@ class ShippingInfo(models.Model):
     payment=models.BooleanField(default=False)
 
     def __str__(self):
-        return self.order.user
+        return f"{self.order.token} ning buyurtmalari "
