@@ -66,7 +66,7 @@ def laststep(request,user,phone,adress,id,quantity,token):
 
 
     except Order.DoesNotExist:
-        order=Order.objects.create(user=user)
+        order=Order.objects.create(token=token)
         product=Products.objects.get(id=id)
         orderitem=OrderItem.objects.create(order=order,product=product,quantity=quantity)
         orderitem.save()
