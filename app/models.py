@@ -24,7 +24,7 @@ class Order(models.Model):
     
     token=models.CharField(max_length=400)
     def __str__(self):
-        return f"{self.user} ning buyurtmalari"
+        return f"{self.token} ning buyurtmalari"
     @property
     def all_summa(self):
         items=self.orderitem_set.all()
