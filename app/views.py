@@ -55,8 +55,8 @@ def laststep(request,user,phone,adress,id,quantity,obshi):
         order=Order.objects.get(user=user)
         product=Products.objects.get(id=id)
         if OrderItem.objects.filter(order=order,product=product).exists():
-             item=OrderItem.objects.filter(order=order,product=product)
-             items=OrderItem.objects.filter(order=order,product=product).update(quantity=item.quantity + quantity)
+             item=OrderItem.objects.get(order=order,product=product)
+             OrderItem.objects.filter(order=order,product=product).update(quantity=item.quantity + quantity)
         else:
             items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
         if ShippingInfo.objects.filter(order=order).exists():
@@ -75,8 +75,8 @@ def laststep(request,user,phone,adress,id,quantity,obshi):
         order=Order.objects.create(user=user)
         product=Products.objects.get(id=id)
         if OrderItem.objects.filter(order=order,product=product).exists():
-             item=OrderItem.objects.filter(order=order,product=product)
-             items=OrderItem.objects.filter(order=order,product=product).update(quantity=item.quantity+ quantity)
+             item=OrderItem.objects.get(order=order,product=product)
+             OrderItem.objects.filter(order=order,product=product).update(quantity=item.quantity+ quantity)
         else:
             items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
         if ShippingInfo.objects.filter(order=order).exists():
