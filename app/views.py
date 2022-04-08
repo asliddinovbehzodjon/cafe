@@ -56,8 +56,8 @@ def laststep(request,user,phone,adress,id,quantity,token):
         order=Order.objects.get(token=token)
         product=Products.objects.get(id=id)
         orderitem=OrderItem.objects.create(order=order,product=product,quantity=quantity)
-        orderitem.save()
-        summa=order.all_summa
+       
+        
         info=ShippingInfo.objects.create(name=user,order=order,phone=phone,adress=adress)
         from clickuz import ClickUz
         url = ClickUz.generate_url(order_id=phone[1:],amount='1000',return_url=f'http://behzodasliddinov.uz/{token}')
@@ -69,8 +69,7 @@ def laststep(request,user,phone,adress,id,quantity,token):
         order=Order.objects.create(token=token)
         product=Products.objects.get(id=id)
         orderitem=OrderItem.objects.create(order=order,product=product,quantity=quantity)
-        orderitem.save()
-        summa=order.all_summa
+       
         info=ShippingInfo.objects.create(name=user,order=order,phone=phone,adress=adress)
         from clickuz import ClickUz
         url = ClickUz.generate_url(order_id=phone[1:],amount='1000',return_url=f'http://behzodasliddinov.uz/{token}')
