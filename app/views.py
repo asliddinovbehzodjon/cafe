@@ -62,7 +62,7 @@ def laststep(request,user,phone,adress,id,quantity,token):
         from clickuz import ClickUz
         url = ClickUz.generate_url(order_id=phone[1:],amount='1000',return_url=f'http://behzodasliddinov.uz/{token}')
 
-        return Response({"url":url,'summa':summa},status=status.HTTP_200_OK)
+        return Response({"url":url},status=status.HTTP_200_OK)
 
 
     except Order.DoesNotExist:
@@ -73,7 +73,7 @@ def laststep(request,user,phone,adress,id,quantity,token):
         from clickuz import ClickUz
         url = ClickUz.generate_url(order_id=phone[1:],amount='1000',return_url=f'http://behzodasliddinov.uz/{token}')
 
-        return Response({"url":url,'summa':summa},status=status.HTTP_200_OK)
+        return Response({"url":url},status=status.HTTP_200_OK)
        
 
     
