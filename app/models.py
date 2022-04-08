@@ -43,6 +43,7 @@ class OrderItem(models.Model):
         return total
 
 class ShippingInfo(models.Model):
+    summa=models.IntegerField(null=True)
     name=models.CharField(max_length=400,null=True)
     order=models.ForeignKey(Order,on_delete=models.CASCADE)
     phone=models.CharField(max_length=400)

@@ -50,23 +50,23 @@ def SendTelegramBot(request,xabar):
 
 
 @api_view(['GET','POST'])
-def laststep(request,user,phone,adress,id,quantity,token):
+def laststep(request,user,phone,adress,id,quantity,token,summa):
     try:
         order=Order.objects.get(token=token)
         product=Products.objects.get(id=id)
         OrderItem.objects.create(order=order,product=product,quantity=quantity) 
-        ShippingInfo.objects.create(name=user,order=order,phone=phone,adress=adress)
+        ShippingInfo.objects.create(name=user,order=order,phone=phone,adress=adress,summa=summa)
         from clickuz import ClickUz
-        url = ClickUz.generate_url(order_id=phone[1:],amount='1000',return_url=f'http://behzodasliddinov.uz/{token}')
+        url = ClickUz.generate_url(order_id=phone[1:],amount=summa,return_url=f'http://behzodasliddinov.uz/{token}')
 
         return Response({"url":url},status=status.HTTP_200_OK)
     except Order.DoesNotExist:
         order=Order.objects.create(token=token)
         product=Products.objects.get(id=id)
         OrderItem.objects.create(order=order,product=product,quantity=quantity)
-        ShippingInfo.objects.create(name=user,order=order,phone=phone,adress=adress)
+        ShippingInfo.objects.create(name=user,order=order,phone=phone,adress=adress,summa=summa)
         from clickuz import ClickUz
-        url = ClickUz.generate_url(order_id=phone[1:],amount='1000',return_url=f'http://behzodasliddinov.uz/{token}')
+        url = ClickUz.generate_url(order_id=phone[1:],amount=summa,return_url=f'http://behzodasliddinov.uz/{token}')
         return Response({"url":url},status=status.HTTP_200_OK)
        
 
