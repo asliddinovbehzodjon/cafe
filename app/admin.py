@@ -15,7 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display=('user',)
+    list_display=('token',)
    
 
 admin.site.register(OrderItem)

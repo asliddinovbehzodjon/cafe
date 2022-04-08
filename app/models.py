@@ -1,3 +1,4 @@
+from email.policy import default
 from itertools import product
 from django.db import models
 
@@ -20,7 +21,8 @@ class Products(models.Model):
         verbose_name_plural="Mahsulotlar "
         verbose_name="Mahsulot "
 class Order(models.Model):
-    user=models.CharField(max_length=400)
+    
+    token=models.CharField(max_length=400)
     def __str__(self):
         return f"{self.user} ning buyurtmalari"
     @property
@@ -29,6 +31,7 @@ class Order(models.Model):
         total=sum([item.get_summa for item in items])
         return total
 class OrderItem(models.Model):
+    name=models.CharField(max_length=400)
     order=models.ForeignKey(Order,on_delete=models.CASCADE)
     product=models.ForeignKey(Products,on_delete=models.CASCADE)
     quantity=models.IntegerField()
@@ -43,5 +46,7 @@ class ShippingInfo(models.Model):
     order=models.ForeignKey(Order,on_delete=models.CASCADE)
     phone=models.CharField(max_length=400)
     adress=models.CharField(max_length=400)
+    payment=models.BooleanField(default=False)
+
     def __str__(self):
         return self.order.user

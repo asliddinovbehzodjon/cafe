@@ -1,4 +1,5 @@
 from itertools import product
+from lib2to3.pgen2 import token
 from django.shortcuts import render
 
 # Create your views here.
@@ -49,48 +50,32 @@ def SendTelegramBot(request,xabar):
 
 
 @api_view(['GET','POST'])
-def laststep(request,user,phone,adress,id,quantity,obshi):
+def laststep(request,user,phone,adress,id,quantity,token):
     try:
        
-        order=Order.objects.get(user=user)
+        order=Order.objects.get(token=token)
         product=Products.objects.get(id=id)
-        if OrderItem.objects.filter(order=order,product=product).exists():
-             item=OrderItem.objects.get(order=order,product=product)
-             OrderItem.objects.filter(order=order,product=product).update(quantity=item.quantity + quantity)
-        else:
-            items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
-        if ShippingInfo.objects.filter(order=order).exists():
-            ShippingInfo.objects.filter(order=order).update(phone=phone,adress=adress)
-        else:
-          info=ShippingInfo.objects.create(order=order,phone=phone,adress=adress)
+        orderitem=OrderItem.objects.create(order=order,product=product,quantity=quantity)
+        orderitem.save()
+        summa=order.all_summa
+        info=ShippingInfo.objects.create(name=user,order=order,phone=phone,adress=adress)
         from clickuz import ClickUz
+        url = ClickUz.generate_url(order_id=phone[1:],amount='1000',return_url=f'http://behzodasliddinov.uz/{token}')
 
-
-        url = ClickUz.generate_url(order_id=phone[1:],amount=obshi,return_url='http://behzodasliddinov.uz/')
-
-        return Response({"url":url},status=status.HTTP_200_OK)
+        return Response({"url":url,'summa':summa},status=status.HTTP_200_OK)
 
 
     except Order.DoesNotExist:
         order=Order.objects.create(user=user)
         product=Products.objects.get(id=id)
-        if OrderItem.objects.filter(order=order,product=product).exists():
-             item=OrderItem.objects.get(order=order,product=product)
-             OrderItem.objects.filter(order=order,product=product).update(quantity=item.quantity+ quantity)
-        else:
-            items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
-        if ShippingInfo.objects.filter(order=order).exists():
-            ShippingInfo.objects.filter(order=order).update(phone=phone,adress=adress)
-        else:
-          info=ShippingInfo.objects.create(order=order,phone=phone,adress=adress)
+        orderitem=OrderItem.objects.create(order=order,product=product,quantity=quantity)
+        orderitem.save()
+        summa=order.all_summa
+        info=ShippingInfo.objects.create(name=user,order=order,phone=phone,adress=adress)
         from clickuz import ClickUz
+        url = ClickUz.generate_url(order_id=phone[1:],amount='1000',return_url=f'http://behzodasliddinov.uz/{token}')
 
-
-        url = ClickUz.generate_url(order_id=phone[1:],amount=obshi,return_url='http://behzodasliddinov.uz/')
-
-        return Response({"url":url},status=status.HTTP_200_OK)
-
-
-
+        return Response({"url":url,'summa':summa},status=status.HTTP_200_OK)
+       
 
     
