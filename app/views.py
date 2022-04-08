@@ -47,20 +47,7 @@ def SendTelegramBot(request,xabar):
         requests.get(url2)
         return Response({'Message':'Send'},status=status.HTTP_200_OK) 
 
-# @api_view(['GET','POST'])
-# def order(request,user,phone,adress,id,quantity):
-#         try:
-#             product=Products.objects.get(id=id)
-#             if Order.objects.filter(product=product,user=user).exists():
-#                 Order.objects.filter(product=product,user=user).update(quantity=quantity)
-#             else: 
-#                 Order.objects.create(
-#                     user=user,product=product,quantity=quantity
-#                 )
-#             return Response({"Order":"Added"},status=status.HTTP_200_OK)
 
-#         except Products.DoesNotExist:
-#              return Response(status=status.HTTP_404_NOT_FOUND)
 @api_view(['GET','POST'])
 def laststep(request,user,phone,adress,id,quantity,obshi):
     try:
@@ -69,7 +56,7 @@ def laststep(request,user,phone,adress,id,quantity,obshi):
         product=Products.objects.get(id=id)
         if OrderItem.objects.filter(order=order,product=product).exists():
              item=OrderItem.objects.filter(order=order,product=product)
-             items=OrderItem.objects.filter(order=order,product=product).update(quantity=item.quantity+ quantity)
+             items=OrderItem.objects.filter(order=order,product=product).update(quantity=item.quantity + quantity)
         else:
             items=OrderItem.objects.create(order=order,product=product,quantity=quantity)
         if ShippingInfo.objects.filter(order=order).exists():
