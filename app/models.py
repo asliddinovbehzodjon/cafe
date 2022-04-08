@@ -31,7 +31,7 @@ class Order(models.Model):
         total=sum([item.get_summa for item in items])
         return total
 class OrderItem(models.Model):
-    name=models.CharField(max_length=400)
+    
     order=models.ForeignKey(Order,on_delete=models.CASCADE)
     product=models.ForeignKey(Products,on_delete=models.CASCADE)
     quantity=models.IntegerField()
@@ -43,6 +43,7 @@ class OrderItem(models.Model):
         return total
 
 class ShippingInfo(models.Model):
+    name=models.CharField(max_length=400,null=True)
     order=models.ForeignKey(Order,on_delete=models.CASCADE)
     phone=models.CharField(max_length=400)
     adress=models.CharField(max_length=400)
